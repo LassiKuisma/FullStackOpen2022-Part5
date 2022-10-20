@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNhdHMiLCJpZCI6IjYzNGMwMTBmNTdmMDFiODc2MzE0NDA0MiIsImlhdCI6MTY2NTkyNTQxOH0.bF7BY4fNpSkH1xIbMXursJXo_JgUJlRcmBUe6gFi8cc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxhc3NpIiwiaWQiOiI2MzUxNjljZDVhYjdjZmU2OGY3MzBjYzMiLCJpYXQiOjE2NjYyNzk5MDl9.OuvpI3-UGCuUp_AalffyqzNwhBNjNI0IXjDAlUQzV2Y
 
 {
-    "title": "qqq",
+    "title": "Blog #2",
     "author": "Me",
-    "url": "asd",
-    "likes": "1"
+    "url": "das",
+    "likes": "2"
 }
