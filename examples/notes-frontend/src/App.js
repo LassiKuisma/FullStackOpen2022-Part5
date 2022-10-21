@@ -4,6 +4,9 @@ import Notification from './components/Notification'
 import Footer from './components/Footer'
 import noteService from './services/notes'
 import loginService from './services/login'
+import LoginForm from './components/Login'
+import Togglable from './components/Togglable'
+import NoteForm from './components/NoteForm'
 
 const App = () => {
   const [notes, setNotes] = useState([])
@@ -15,6 +18,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+
+  const [loginVisible, setLoginVisible] = useState(false)
 
 
   const handleNoteChange = (event) => {
@@ -125,38 +130,28 @@ const App = () => {
     window.localStorage.removeItem('loggedNoteappUser')
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+  const loginForm = () => {
+    return (
+      <Togglable buttonLabel='login'>
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
         />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-        <button type="submit">login</button>
-      </div>
-    </form>
-  )
+      </Togglable>
+    )
+  }
 
   const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input
+    <Togglable buttonLabel="new note">
+      <NoteForm
+        onSubmit={addNote}
         value={newNote}
-        onChange={handleNoteChange}
+        handleChange={handleNoteChange}
       />
-      <button type="submit">save</button>
-    </form>
+    </Togglable>
   )
 
   const logoutForm = () => (
