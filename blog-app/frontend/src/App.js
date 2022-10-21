@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -94,6 +94,9 @@ const App = () => {
       url: blogUrl,
     }
 
+
+    blogCreationFormRef.current.toggleVisibility()
+
     const created = await blogService.create(blogObject)
     console.log('new blog created!')
 
@@ -142,11 +145,13 @@ const App = () => {
     />
   )
 
+  const blogCreationFormRef = useRef()
+
   const blogForm = () => (
     <div>
       <h2>Blogs</h2>
       {user !== null && userForm()}
-      <Togglable buttonLabel='New blog'>
+      <Togglable buttonLabel='New blog' ref={blogCreationFormRef}>
         <BlogCreationForm
           handleSubmit={handleAddBlog}
           blogTitle={blogTitle}
