@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import UserForm from './components/UserForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -132,19 +133,12 @@ const App = () => {
   )
 
   // displays user name, and log-out button
-  const userForm = () => {
-    if (user === null) {
-      return (<></>)
-    }
-
-    return (
-      <div>
-        <p>Logged in as {user.name}
-          <button onClick={handleLogout}>Log out</button>
-        </p>
-      </div>
-    )
-  }
+  const userForm = () => (
+    <UserForm
+      user={user}
+      handleLogout={handleLogout}
+    />
+  )
 
   const newBlogForm = () => (
     <div>
