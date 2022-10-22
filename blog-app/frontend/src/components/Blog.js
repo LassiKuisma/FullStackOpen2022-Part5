@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -23,8 +23,16 @@ const Blog = ({ blog }) => {
     <div>{blog.title} {blog.author} {props.children}</div>
   )
 
-  const likeBlog = () => {
-    console.log('liked')
+  const likeBlog = (event) => {
+    event.preventDefault()
+
+    updateBlog(blog.id, {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+      user: blog.user,
+    })
   }
 
   const BlogExpanded = (props) => (
