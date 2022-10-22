@@ -23,11 +23,14 @@ const Blog = ({ blog }) => {
     <div>{blog.title} {blog.author} {props.children}</div>
   )
 
-  // TODO: add "like" button
+  const likeBlog = () => {
+    console.log('liked')
+  }
+
   const BlogExpanded = (props) => (
     <div>{blog.title} {blog.author} {props.children}<br />
       {blog.url}<br />
-      likes {blog.likes} ADD LIKE BUTTON HERE!!<br />
+      likes {blog.likes} <button onClick={likeBlog}>Like</button><br />
       {blog.user.name}
     </div>
   )
