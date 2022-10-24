@@ -130,6 +130,14 @@ const App = () => {
 
   const blogCreationFormRef = useRef()
 
+  const blogsByLikes = blogs.sort((a, b) =>
+    a.likes === b.likes
+      ? 0
+      : a.likes > b.likes
+        ? -1
+        : 1
+  )
+
   const blogForm = () => (
     <div>
       <h2>Blogs</h2>
@@ -138,7 +146,7 @@ const App = () => {
         <BlogCreationForm createBlog={addBlog} />
       </Togglable>
       <br />
-      {blogs.map(blog =>
+      {blogsByLikes.map(blog =>
         <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
       )}
     </div>
