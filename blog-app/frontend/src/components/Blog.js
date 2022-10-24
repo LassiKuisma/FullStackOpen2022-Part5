@@ -45,7 +45,9 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
   }
 
   const BlogExpanded = (props) => {
-    const userCanRemove = user.username === blog.user.username
+    const userCanRemove = blog.user !== undefined
+      && (user.username === blog.user.username)
+
     const removeButton = userCanRemove
       ? <><br /><button onClick={removeBlog}>Remove</button></>
       : <></>
@@ -54,7 +56,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
       <div>{blog.title} {blog.author} {props.children}<br />
         {blog.url}<br />
         likes {blog.likes} <button onClick={likeBlog}>Like</button><br />
-        {blog.user.name}
+        {blog.user !== undefined && blog.user.name}
         {userCanRemove && removeButton}
       </div>
     )
