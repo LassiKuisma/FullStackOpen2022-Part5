@@ -92,6 +92,12 @@ const App = () => {
     showNotification(`Liked blog ${blogObject.title}`, 'yellow')
   }
 
+  const deleteBlog = async (blogId) => {
+    const _response = await blogService.deleteBlog(blogId)
+    setBlogs(blogs.filter(blog => blog.id !== blogId))
+    showNotification('Blog deleted', 'yellow')
+  }
+
   const loginForm = () => (
     <div>
       <h2>Log in to application</h2>
@@ -147,7 +153,7 @@ const App = () => {
       </Togglable>
       <br />
       {blogsByLikes.map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} user={user} />
       )}
     </div>
   )
