@@ -3,11 +3,11 @@ const Notification = ({ notification }) => {
         return null
     }
 
-    const className = notification.type === "green"
-        ? "ok"
-        : notification.type === "yellow"
-            ? "alert"
-            : "error"
+    const className = notification.type === 'green'
+        ? 'ok'
+        : notification.type === 'yellow'
+            ? 'alert'
+            : 'error'
 
     return (
         <div className={className}>
