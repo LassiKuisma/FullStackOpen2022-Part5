@@ -64,12 +64,12 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
 
     return (
         <div style={blogStyle}>
-            <div style={hideWhenVisible}>
+            <div style={hideWhenVisible} className='blogSummary'>
                 <BlogSummary>
                     <button onClick={toggleVisibility}>View</button>
                 </BlogSummary>
             </div>
-            <div style={showWhenVisible}>
+            <div style={showWhenVisible} className='blogExpanded'>
                 <BlogExpanded>
                     <button onClick={toggleVisibility}>Hide</button>
                 </BlogExpanded>
