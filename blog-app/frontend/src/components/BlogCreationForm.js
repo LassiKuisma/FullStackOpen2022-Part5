@@ -42,18 +42,21 @@ const BlogCreationForm = ({ createBlog }) => {
                         <input
                             value={blogTitle}
                             onChange={handleBlogTitleChange}
+                            id='input-blog-title'
                         />
                     </li>
                     <li>Author:
                         <input
                             value={blogAuthor}
                             onChange={handleBlogAuthorChange}
+                            id='input-blog-author'
                         />
                     </li>
                     <li>Url:
                         <input
                             value={blogUrl}
                             onChange={handleBlogUrlChange}
+                            id='input-blog-url'
                         />
                     </li>
                 </ul>
