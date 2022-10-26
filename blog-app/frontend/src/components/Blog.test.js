@@ -40,3 +40,29 @@ describe('<Blog />', () => {
         expect(expanded).not.toHaveStyle('display: none')
     })
 })
+
+test('pressing like button twice sends two events', async () => {
+    const blog = {
+        title: 'blog title',
+        author: 'blog author',
+        url: 'blog url',
+        likes: 'blog likes',
+    }
+
+    const updateBlog = jest.fn()
+
+    render(
+        <Blog
+            blog={blog}
+            updateBlog={updateBlog}
+        />
+    )
+
+
+    const user = userEvent.setup()
+    const likeButton = screen.getByText('Like')
+    await user.click(likeButton)
+    await user.click(likeButton)
+
+    expect(updateBlog.mock.calls).toHaveLength(2)
+})
