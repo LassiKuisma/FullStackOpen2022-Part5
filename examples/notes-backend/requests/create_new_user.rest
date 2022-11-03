@@ -2,7 +2,7 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-    "username": "lassi",
-    "name": "Lassi Kuisma",
-    "password": "kissat on koiria"
+    "username": "cypress-man",
+    "name": "Cyp Ress",
+    "password": "cypress tests my app"
 }
