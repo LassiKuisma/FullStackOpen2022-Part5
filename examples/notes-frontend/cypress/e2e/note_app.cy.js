@@ -1,6 +1,13 @@
 describe('Note app', function () {
     beforeEach(function () {
-        cy.visit('http://localhost:3001')
+        cy.request('POST', 'http://localhost:3001/api/testing/reset')
+        const user = {
+            name: 'Cypress User',
+            username: 'cypuser',
+            password: 'secret password'
+        }
+        cy.request('POST', 'http://localhost:3001/api/users/', user)
+        cy.visit('http://localhost:3000')
     })
 
     it('front page can be opened', function () {
@@ -10,19 +17,16 @@ describe('Note app', function () {
 
     it('login form can be opened', function () {
         cy.contains('login').click()
-        cy.get('#username').type('cypress-man')
-        cy.get('#password').type('cypress tests my app')
+        cy.get('#username').type('cypuser')
+        cy.get('#password').type('secret password')
         cy.get('#login-button').click()
 
-        cy.contains('Cyp Ress logged-in')
+        cy.contains('Cypress User logged-in')
     })
 
     describe('when logged in', function () {
         beforeEach(function () {
-            cy.contains('login').click()
-            cy.get('#username').type('cypress-man')
-            cy.get('#password').type('cypress tests my app')
-            cy.get('#login-button').click()
+            cy.login({ username: 'cypuser', password: 'secret password' })
         })
 
         it('a new note can be created', function () {
@@ -31,5 +35,34 @@ describe('Note app', function () {
             cy.contains('Save').click()
             cy.contains('a note created by cypress')
         })
+
+        describe('and several notes exist', function () {
+            beforeEach(function () {
+                cy.createNote({ content: 'first note', important: false })
+                cy.createNote({ content: 'second note', important: false })
+                cy.createNote({ content: 'third note', important: false })
+            })
+
+            it('one of those can be made important', function () {
+                cy.contains('second note').parent().find('button').as('theButton')
+
+                cy.get('@theButton').click()
+                cy.get('@theButton').should('contain', 'make not important')
+            })
+        })
+    })
+
+    it('login fails with wrong password', function () {
+        cy.contains('login').click()
+        cy.get('#username').type('cypuser')
+        cy.get('#password').type('wrong password')
+        cy.get('#login-button').click()
+
+        cy.get('.error')
+            .should('contain', 'Wrong credentials')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
+            .and('have.css', 'border-style', 'solid')
+
+        cy.get('html').should('not.contain', 'Cypress User logged-in')
     })
 })
