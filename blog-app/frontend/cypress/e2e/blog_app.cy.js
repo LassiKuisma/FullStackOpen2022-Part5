@@ -64,7 +64,7 @@ describe('Blog app', function () {
                 cy.createBlog({ title: 'Title #3', author: 'Author #3', url: 'Url #3' })
             })
 
-            it.only('User can like blogs', function () {
+            it('User can like blogs', function () {
                 cy.get('.blogSummary')
                     .contains('Title #3')
                     .contains('View')
@@ -81,6 +81,56 @@ describe('Blog app', function () {
                 cy.contains('Liked blog Title #3')
                 cy.get('@theBlog').contains('likes 1')
             })
+        })
+    })
+
+    describe('Deleting blogs', function () {
+        beforeEach(function () {
+            const other_user = {
+                name: 'Sserpyc',
+                username: 'otherguy',
+                password: 'you shall pass'
+            }
+            cy.request('POST', 'http://localhost:3003/api/users', other_user)
+
+            cy.login({ username: 'otherguy', password: 'you shall pass' })
+            cy.contains('Logged in as Sserpyc')
+
+            // blogs #1 and #2 posted by 'otherguy'
+            cy.createBlog({ title: 'Title #1', author: 'Author #1', url: 'Url #1' })
+            cy.createBlog({ title: 'Title #2', author: 'Author #2', url: 'Url #2' })
+
+            // logout, log back in with original user
+            cy.contains('Log out').click()
+            cy.login({ username: 'cypuser', password: 'secret password' })
+            cy.contains('Logged in as Cypress User')
+
+            cy.createBlog({ title: 'Title #3', author: 'Author #3', url: 'Url #3' })
+            cy.createBlog({ title: 'Title #4', author: 'Author #4', url: 'Url #4' })
+        })
+
+        it('Can be done by user who posted it', function () {
+            cy.get('.blogSummary')
+                .contains('Title #4')
+                .contains('View')
+                .click()
+
+            cy.get('.blogExpanded')
+                .contains('Title #4')
+                .contains('Remove').click()
+
+            cy.get('html').should('not.contain', 'Title #4')
+        })
+
+        it('Cannot be done by users that did not originally post it', function () {
+            cy.get('.blogSummary')
+                .contains('Title #1')
+                .contains('View')
+                .click()
+
+            cy.get('.blogExpanded')
+                .contains('Title #1')
+                .should('not.contain', 'Remove')
         })
     })
 })
