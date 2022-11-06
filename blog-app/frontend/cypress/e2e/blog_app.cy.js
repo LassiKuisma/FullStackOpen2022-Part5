@@ -81,6 +81,34 @@ describe('Blog app', function () {
                 cy.contains('Liked blog Title #3')
                 cy.get('@theBlog').contains('likes 1')
             })
+
+            it('Blogs are ordered by number of likes', function () {
+                // expand all
+                cy.get('.blogSummary')
+                    .each(summary => {
+                        cy.wrap(summary).contains('View').click()
+                    })
+
+                // throw some likes on blogs
+                cy.get('.blogExpanded').contains('Title #3').contains('Like').click()
+                cy.get('.blogExpanded').contains('Title #3').should('contain', 'likes 1')
+
+                for (let i = 0; i < 8; i++) {
+                    cy.get('.blogExpanded').contains('Title #1').contains('Like').click()
+                    cy.get('.blogExpanded').contains('Title #1').should('contain', `likes ${i + 1}`)
+                }
+
+                // expected amount of likes: blog#1=8, blog#2=0, blog#3=1
+                cy.get('.blogExpanded').eq(0)
+                    .should('contain', 'Title #1')
+                    .should('contain', 'likes 8')
+                cy.get('.blogExpanded').eq(1)
+                    .should('contain', 'Title #3')
+                    .should('contain', 'likes 1')
+                cy.get('.blogExpanded').eq(2)
+                    .should('contain', 'Title #2')
+                    .should('contain', 'likes 0')
+            })
         })
     })
 
