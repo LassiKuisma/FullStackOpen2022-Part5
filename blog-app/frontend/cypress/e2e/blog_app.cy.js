@@ -76,10 +76,8 @@ describe('Blog app', function () {
 
                 cy.get('@theBlog').contains('Like').click()
 
-                cy.wait(500)
-
                 cy.contains('Liked blog Title #3')
-                cy.get('@theBlog').contains('likes 1')
+                cy.get('@theBlog').should('contain', 'likes 1')
             })
 
             it('Blogs are ordered by number of likes', function () {
